@@ -11,11 +11,13 @@ Plug('chriskempson/base16-vim')
 
 Plug('nvim-treesitter/nvim-treesitter', {['do'] = ':TSUpdate'})
 
+Plug('jamespeapen/swayconfig.vim')
+
 -- Initialize plugin system
 vim.call('plug#end')
 
 -- Columns
-vim.opt.number = true
+-- vim.opt.number = true
 
 -- Theme
 vim.opt.termguicolors = true

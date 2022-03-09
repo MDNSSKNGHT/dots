@@ -1,27 +1,18 @@
-# Super key as mod
-set $mod Mod4
-
 # Home row direction keys, like vim
 set $left h
 set $down j
 set $up k
 set $right l
 
-# Your preferred terminal emulator
+set $mod Mod4
 set $term alacritty
-
-# Your preferred application launcher
-# Note: pass the final command to swaymsg so that the resulting window can be opened
-# on the original workspace that the command was run on.
-set $menu wofi
+set $menu wofi | xargs swaymsg exec --
 
 # Set the wallpaper
-output * bg /home/madnessknight/.backgrounds/moon-space-minimal_1920x1080.jpg fill
+output * bg $HOME/.backgrounds/unleash_the_madness_3840x2160.png fill
 
 # Set the monitor resolution and refresh rate
 output HDMI-A-2 resolution 1920x1080@71.910Hz position 1920,0
-
-# You can get the names of your outputs by running: swaymsg -t get_outputs
 
 ### Idle configuration
 #
@@ -29,29 +20,53 @@ output HDMI-A-2 resolution 1920x1080@71.910Hz position 1920,0
 #
 
 exec swayidle -w \
-          timeout 300 'swaylock -f -c 000000' \
-          timeout 350 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
-          before-sleep 'swaylock -f -c 000000'
+        timeout 300 'swaylock -f -c 000000' \
+        timeout 350 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
+        before-sleep 'swaylock -f -c 000000'
 #
 # This will lock your screen after 300 seconds of inactivity, then turn off
 # your displays after another 300 seconds, and turn your screens back on when
 # resumed. It will also lock your screen before your computer goes to sleep.
 
-# Input configurations
 set $gnome-schema org.gnome.desktop.interface
 
 exec_always {
     gsettings set $gnome-schema gtk-theme "Adwaita"
 }
 
-input * {
-
-    # Keyboard configurations
+input type:keyboard {
     xkb_layout "latam"
     xkb_variant "deadtilde"
+}
 
-    # Mouse configurations
+input type:pointer {
     accel_profile flat
+}
+
+# Colors
+set {
+	$black		#282828
+	$dark_red	#cc241d
+	$dark_green	#98971a
+	$dark_yellow	#d79921
+	$dark_blue	#458588
+	$dark_purple	#b16286
+	$dark_aqua	#689d6a
+	$dark_gray	#a89984
+	$bright_gray	#928374
+	$bright_red	#fb4934
+	$bright_green	#b8bb26
+	$bright_yellow	#fabd2f
+	$bright_blue	#83a598
+	$bright_purple	#d3869b
+	$bright_aqua	#8ec07c
+	$white		#ebdbb2
+
+	$a		    e0
+	$focused	$bright_aqua
+	$inactive	$dark_purple
+	$unfocused	$black
+	$urgent		$dark_yellow
 }
 
 # You can get the names of your inputs by running: swaymsg -t get_inputs
@@ -87,6 +102,7 @@ input * {
     bindsym $mod+Shift+c reload
 
     bindsym Shift+Print exec grim - | wl-copy
+    bindsym Print exec grim
 
     # Exit sway (logs you out of your Wayland session)
     bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
@@ -94,26 +110,27 @@ input * {
 # Moving around:
 #
     # Move your focus around
-    bindsym $mod+$left focus left
-    bindsym $mod+$down focus down
-    bindsym $mod+$up focus up
+    bindsym $mod+$left  focus left
+    bindsym $mod+$down  focus down
+    bindsym $mod+$up    focus up
     bindsym $mod+$right focus right
     # Or use $mod+[up|down|left|right]
-    bindsym $mod+Left focus left
-    bindsym $mod+Down focus down
-    bindsym $mod+Up focus up
-    bindsym $mod+Right focus right
+    bindsym $mod+Left   focus left
+    bindsym $mod+Down   focus down
+    bindsym $mod+Up     focus up
+    bindsym $mod+Right  focus right
 
     # Move the focused window with the same, but add Shift
-    bindsym $mod+Shift+$left move left
-    bindsym $mod+Shift+$down move down
-    bindsym $mod+Shift+$up move up
+    bindsym $mod+Shift+$left  move left
+    bindsym $mod+Shift+$down  move down
+    bindsym $mod+Shift+$up    move up
     bindsym $mod+Shift+$right move right
     # Ditto, with arrow keys
-    bindsym $mod+Shift+Left move left
-    bindsym $mod+Shift+Down move down
-    bindsym $mod+Shift+Up move up
-    bindsym $mod+Shift+Right move right
+    bindsym $mod+Shift+Left   move left
+    bindsym $mod+Shift+Down   move down
+    bindsym $mod+Shift+Up     move up
+    bindsym $mod+Shift+Right  move right
+
 #
 # Workspaces:
 #
@@ -186,35 +203,58 @@ mode "resize" {
     # right will grow the containers width
     # up will shrink the containers height
     # down will grow the containers height
-    bindsym $left resize shrink width 10px
-    bindsym $down resize grow height 10px
-    bindsym $up resize shrink height 10px
-    bindsym $right resize grow width 10px
+    bindsym $left   resize shrink width 10px
+    bindsym $down   resize grow height 10px
+    bindsym $up     resize shrink height 10px
+    bindsym $right  resize grow width 10px
 
     # Ditto, with arrow keys
-    bindsym Left resize shrink width 10px
-    bindsym Down resize grow height 10px
-    bindsym Up resize shrink height 10px
-    bindsym Right resize grow width 10px
+    bindsym Left    resize shrink width 10px
+    bindsym Down    resize grow height 10px
+    bindsym Up      resize shrink height 10px
+    bindsym Right   resize grow width 10px
 
     # Return to default mode
     bindsym Return mode "default"
     bindsym Escape mode "default"
 }
+
 bindsym $mod+r mode "resize"
 
 # Using Waybar instead of Swaybar
-bar swaybar_command waybar
+bar {
+    # swaybar_command waybar
+    font Source Code Pro 10
+    separator_symbol ' | '
+    position top
+    status_command i3status
+    mode dock
 
-# Removing the borders
-default_border none
+    colors {
+        separator       $inactive
+        background      $black
+        statusline      $white
 
-# Replacing borders with gaps
+        focused_workspace   $focused        $focused        $black
+        active_workspace    $inactive        $inactive        $white
+        inactive_workspace  $unfocused$a    $unfocused$a    $white
+        urgent_workspace    $urgent         $urgent         $black
+    }
+}
+
 gaps inner 6
 gaps outer -2
+
+default_border pixel 2
+
+# Property name         Border  BG      Text    Indicator Child Border
+client.focused          #282828 #282828 #ffffff #dce38f   #dce38f
+client.focused_inactive #282828 #282828 #ffffff #ffffff   #ffffff
+client.unfocused        #282828 #282828 #888888 #ffffff   #ffffff
 
 # Enable floating mode for apps
 # that initialize with 'floating' class
 for_window [app_id="floating"] floating enable
 
 include /etc/sway/config.d/*
+
